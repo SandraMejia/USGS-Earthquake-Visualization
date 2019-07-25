@@ -18,17 +18,17 @@ plates_url = 'https://raw.githubusercontent.com/fraxen/tectonicplates/master/Geo
 var getColor = function (magnitude) {
     var color = "";
     if (magnitude < 1) {
-        color = "#00ff00";
+        color = "#33cc33";
     } else if (magnitude >= 1 && magnitude < 2) {
-        color = "#ffff00";
+        color = "#99ff33";
     } else if (magnitude >= 2 && magnitude < 3) {
         color = "#ffff00";
     } else if (magnitude >= 3 && magnitude < 4) {
-        color = "#ff6600";
+        color = "#ff9933";
     } else if (magnitude >= 4 && magnitude < 5) {
-        color = "#ff3300";
-    } else {
-        color = "cc0000";
+        color = "#ff6600";
+    } else if (magnitude > 5) {
+        color = "#ff0000";
     }
     return color;
 };
@@ -131,39 +131,23 @@ L.control.layers(baseMaps, overlays, {
 }).addTo(myMap);
 
 
+// ------------------------
+// |Add Legend Box to map |
+// ------------------------
+var legend = L.control({position: 'bottomleft'});
+legend.onAdd = function () {
 
-//   // ADD LEGEND guide for earthquakes magnitude.
-//   var legend = L.control({ position: 'bottomright' });    
-
-//   legend.onAdd = function () {
-
-//     var div = L.DomUtil.create('div', 'legend'),
-//         magnitude = [0, 1, 2, 3, 4, 5];       
-
-//     for (var i = 0; i < magnitude.length; i++) {
-//       div.innerHTML +=            
-//           '<i style="background:' + getColor(magnitude[i]) + '">&nbsp;&nbsp;&nbsp;&nbsp;</i> ' +
-//           magnitude[i] + (magnitude[i + 1] ? '&ndash;' + magnitude[i + 1] + '<br>' : '+');
-//     }
-//     return div;
-// };
-
-// legend.addTo(worldmap);  
-
-
-var legend = L.control({ position: 'bottomright' });
-legend.onAdd = function (map) {
     var div = L.DomUtil.create('div', 'info legend'),
-        grades = [0, 1, 2, 3, 4, 5];
-        labels = [];
+    background = 'white';
+        grades = [0.5,1.5,2.5,3.5,4.5,5.5]
+        labels = ["0-1", "1-2", "2-3", "3-4", "4-5", "5+"];
 
-    // loop through our density intervals and generate a label with a colored square for each interval
-    for (let i = 0; i < grades.length; i++) {
+    // loop through intervals and generate a label with a colored square for each interval
+    for (var i = 0; i < grades.length; i++) {
         div.innerHTML +=
-        '<i style="background:' + getColor(grades[i]) + '"></i> ' +
-        grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
+            '<i style="background:' + getColor(grades[i]) + '">&nbsp;&nbsp;&nbsp;&nbsp;</i> ' +
+            labels[i] + '<br>';
     }
     return div;
 };
-
 legend.addTo(myMap);

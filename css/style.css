@@ -1,3 +1,8 @@
 #myMap {
-    height: 750px;
+    height: 700px;
   }
+
+.legend {
+  background: lightgray;
+  padding: 10px
+}
